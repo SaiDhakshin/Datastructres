@@ -1,0 +1,69 @@
+#include <stdio.h>
+
+void merge(int a[],int low,int mid,int high){
+    int l = low;
+    int m = mid + 1;
+    int i = low;
+    int k;
+    int temp[high];
+    
+    while((l<=mid)&&(m<=high)){
+        
+        if(a[l]<=a[m]){
+            temp[i] = a[l];
+            i++;
+            l++;
+        }else{
+            temp[i] = a[m];
+            i++;
+            m++;
+        }
+        
+    }
+    while(l<=mid){
+        temp[i] = a[l];
+        i++;
+        l++;
+        }
+        while(m<=high){
+            temp[i] = a[m];
+            i++;
+            m++;
+        }
+        for(k=low;k<=high;k++){
+            a[k] = temp[k];
+        }
+    
+   
+    
+}
+
+void partition(int a[],int low,int high){
+    if(low<high){
+    int mid = (low+high)/2;
+    partition(a,low,mid);
+    partition(a,mid+1,high);
+    merge(a,low,mid,high);
+    }
+}
+
+void mergesort(int a[],int low,int high){
+    partition(a,low,high);
+}
+
+void display(int a[],int n){
+    int i;
+    for(i=0;i<n;i++){
+        printf(" %d ",a[i]);
+    }
+}
+
+void main(){
+    int a[]={3,1,5,3,6,8,2};
+    int n = sizeof(a)/sizeof(a[0]);
+    int low = 0;
+    int high = n;
+    
+    mergesort(a,low,high);
+    display(a,n);
+}
