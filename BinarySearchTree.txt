@@ -1,0 +1,93 @@
+
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node{
+    int data;
+    struct node *left;
+    struct node *right;
+}*root=NULL;
+
+struct node *newNode(int data){
+    struct node *temp = (struct node*)malloc(sizeof(struct node));
+    temp->data = data;
+    temp->left=NULL;
+    temp->right=NULL;
+    return temp;
+}
+
+struct node *insert(struct node *Node,int data){
+    if(Node==NULL){
+        
+       return newNode(data);
+        
+    }else{
+        if(Node->data > data){
+            Node->left = insert(Node->left,data);
+        }else if(Node->data < data){
+            Node->right = insert(Node->right,data);
+        }else{
+            printf("ELement %d already exists",data);
+        }
+    }
+    return Node;
+}
+
+void inorder(struct node *Node){
+
+        if(Node!=NULL){
+            inorder(Node->left);
+            printf(" %d ",Node->data);
+            inorder(Node->right);
+        }
+
+    
+}
+
+struct node *minValueNode(struct node *Node){
+    struct node *temp = Node;
+    while(temp!=NULL && temp->left!=NULL){
+        temp = temp->left;
+    }
+    return temp;
+}
+
+struct node *deleteNode(struct node *Node,int data){
+    if(Node==NULL){
+        return Node;
+    }
+    
+    if(Node->data < data){
+        Node->left = deleteNode(Node->left,data);
+    }else if(Node->data > data){
+        Node->right = deleteNode(Node->right,data); 
+    }
+    
+    else{
+        if(Node->left==NULL){
+            struct node *temp = Node->right;
+            free(Node);
+            return temp;
+            }else if(Node->right==NULL){
+                struct node *temp = Node->left;
+                free(Node);
+                return temp;
+            }
+    }
+    struct node *temp = minValueNode(Node->right);
+    Node->data = temp->data;
+    Node->right = deleteNode(Node->right,temp->data);
+    
+    return Node;
+}
+
+int main()
+{
+    root = insert(root,5);
+    insert(root,6);
+    insert(root , 7);
+    inorder(root);
+    deleteNode(root,6);
+    inorder(root);
+    return 0;
+}
