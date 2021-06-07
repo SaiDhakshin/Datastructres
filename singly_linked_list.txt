@@ -1,0 +1,83 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node{
+    int data;
+    struct node *next;
+};
+
+
+
+struct node *insert_begin(struct node *Node,int data){
+    if(Node==NULL){
+    struct node *temp;
+    temp = (struct node*)malloc(sizeof(struct node));
+    temp->data = data;
+    temp->next = NULL;
+    }else{
+    struct node *temp;
+    temp = (struct node*)malloc(sizeof(struct node));
+    temp->data = data;
+    temp->next = Node;
+    Node = temp;
+    }
+    return Node;
+    
+}
+
+struct node *insert_end(struct node *Node,int data){
+    struct node *temp,*p;
+    temp = (struct node*)malloc(sizeof(struct node));
+    temp->data = data;
+    temp->next = NULL;
+    p = Node;
+    if(p!=NULL){
+    while(p->next!=NULL){
+        p = p->next;
+    }
+    p->next = temp;
+    }else{
+        Node = temp;
+    }
+    return Node;
+}
+
+struct node *insert_atpos(struct node *Node,int data,int pos){
+    struct node *temp,*p,*np;
+    temp = (struct node*)malloc(sizeof(struct node));
+    temp->data = data;
+    
+    int i;
+    p=Node;
+    while(p!=NULL){
+        for(i=0;i<pos;i++){
+            p=p->next;
+        }
+    }
+    np = p->next;
+    temp->next = np;
+    p->next = temp;
+    return Node;
+}
+
+void display(struct node *Node){
+    if(Node!=NULL){
+        while(Node->next!=NULL){
+            printf(" %d ",Node->data);
+            Node = Node->next;
+        }
+    }
+}
+
+void main(){
+ int a[]={5,3,1,6,8,9};
+ struct node *head = NULL;
+ int i;
+ head = insert_begin(head,5);
+ head = insert_begin(head,4);
+  for(i=0;i<=6;i++){
+      head = insert_begin(head,a[i]);
+  }
+ //head = insert_end(head,4);
+ display(head);
+}
