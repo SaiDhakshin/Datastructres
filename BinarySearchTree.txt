@@ -81,6 +81,52 @@ struct node *deleteNode(struct node *Node,int data){
     return Node;
 }
 
+void printRange(struct node *root,int K1,int K2){
+
+    if(root==NULL){
+        return ;
+    }
+    if(K1 < root->data){
+     printRange(root->left,K1,K2);
+    }
+    if(K1 <= root->data && K2 >=root->data){
+        
+        printf(" %d ",root->data);
+    }
+    if(K2 > root->data){
+        printRange(root->right,K1,K2);
+    }
+    
+}
+
+struct node *KthSmallest(struct node *root,int k){
+    if(root==NULL){
+        return NULL;
+        
+    }
+    struct node *left = KthSmallest(root->left,k);
+    
+    if(left!=NULL){
+        return left;
+    }    
+    k--;
+    if(k==0){
+        return root;
+    }else{
+        return KthSmallest(root->right,k);
+    }
+    
+}
+
+void printKthSmallest(struct node *root,int k){
+    struct node *smallest = KthSmallest(root,k);
+    if(smallest == NULL){
+        printf("Less than K nodes present");
+    }else{
+        printf("Kth smallest element is: %d ",root->data);
+    }
+}
+
 int main()
 {
     root = insert(root,5);
