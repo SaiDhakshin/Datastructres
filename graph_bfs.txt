@@ -1,0 +1,64 @@
+#include <stdio.h>
+#define MAX 15
+int n,adj[MAX][MAX],visit[MAX],bfsorder[MAX];
+int i,j,v1,v2,count=1;
+int queue[MAX],front=-1,rear=-1;
+
+void create_graph(){
+    printf("Enter number of vertices: ");
+    scanf("%d",&n);
+    printf("Enter adjacent matrix:");
+    for(i=0;i<n;i++){
+        for(j=0;j<n;j++){
+            scanf("%d",&adj[i][j]);
+        }
+    }
+}
+
+void enqueue(int data){
+    if(front==-1){
+        front++;
+    }
+    rear++;
+    visit[rear]=data;
+}
+
+int dequeue(){
+    int data;
+    data = visit[front];
+    front++;
+    return data;
+}
+
+void bfs(int v){
+    int k,w;
+    printf("V%d-",v);
+    visit[v]=1;
+    enqueue(v);
+    while(front<=rear){
+        k=dequeue();
+        for(w=1;w<=n;w++){
+            if(adj[k][w]==1){
+                if(visit[w]==0){
+                    printf("V%d-",w);
+                    visit[w]=1;
+                    enqueue(w);
+                }
+            }
+        }
+    }
+    
+}
+
+void main(){
+    create_graph();
+    for(i=1;i<=n;i++){
+        visit[i]=0;
+        bfsorder[i]=0;
+    }
+    for(i=1;i<=n;i++){
+        if(visit[i]==0){
+            bfs(i);
+        }
+    }
+}
