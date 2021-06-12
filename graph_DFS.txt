@@ -1,0 +1,43 @@
+#include <stdio.h>
+#define MAX 15
+int n ,adj[MAX][MAX],visit[MAX],dfsorder[MAX];
+int i,j,v1,v2,count=1;
+
+void create_graph(){
+    printf("Enter number for vertices: ");
+    scanf("%d",&n);
+    printf("\nEnter adjacency matrix: ");
+    for(i=1;i<=n;i++){
+        for(j=1;j<=n;j++){
+            scanf("%d",&adj[i][j]);
+        }
+    }
+}
+
+
+void dfs(int s){
+    int k,w;
+    printf("V%d-",s);
+    k=s;
+    visit[k]=1;
+    for(w=1;w<=n;w++){
+        if(adj[k][w]==1){
+            if(visit[w]==0){
+                dfs(w);
+            }
+        }
+    }
+}
+
+void main(){
+    create_graph();
+    for(i=1;i<=n;i++){
+        visit[i]=0;
+    }
+    printf("\nDFS TRAVERSAL\n");
+    for(i=1;i<=n;i++){
+        if(visit[i]==0){
+            dfs(i);
+        }
+    }
+}
