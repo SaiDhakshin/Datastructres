@@ -1,0 +1,95 @@
+
+#include <stdio.h>
+#include <stdlib.h>
+//structure of tree node
+struct node{
+    int data;
+    struct node *left , *right;
+    int left_thread , right_thread;
+}*root=NULL;
+
+
+//insert function for node
+struct node *insert(struct node *root , int element){
+    struct node *newNode , *temp;
+    if(root==NULL){
+        root = (struct node*)malloc(sizeof(struct node));
+        root->data = element;
+        root->left = NULL;
+        root->right = NULL;
+        root->left_thread = 1;
+        root->right_thread = 1;
+        return root;
+    }else{
+        temp = root;
+        while(temp!=NULL){
+            if(element < temp->data){
+                if(temp->left_thread == 0){
+                    temp = temp->left;
+                }else{
+                    newNode = (struct node*)malloc(sizeof(struct node));
+                    newNode->data = element;
+                    newNode->left = NULL;
+                    newNode->right = temp;
+                    newNode->left_thread = 1;
+                    newNode->right_thread = 1;
+                    temp->left = newNode;
+                    temp->left_thread = 0;
+                    return root;
+                }
+            }else if(element > temp->data){
+                if(temp->right_thread == 0){
+                    temp = temp->right;
+                }else{
+                    newNode = (struct node*)malloc(sizeof(struct node));
+                    newNode->data = element;
+                    newNode->right = temp->right;
+                    newNode->left = NULL;
+                    newNode->left_thread = 1;
+                    newNode->right_thread = 1;
+                    temp->right = newNode;
+                    temp->right_thread = 0;
+                    
+                    return root;
+                }
+            }else{
+                printf("\nElement already exists!");
+            }
+        }
+    }
+}
+
+void inorderSuccessor(struct node *root){
+  struct node *temp = root;
+  while(temp->left_thread == 0){
+      temp = temp->left;
+  }
+  while(temp!=NULL){
+      printf(" %d ",temp->data);
+  
+  if(temp->right_thread == 0){
+      temp = temp->right;
+      while(temp->left_thread == 0){
+          temp = temp->left;
+      }
+  }else{
+      temp = temp->right;
+  }
+  }
+  printf("\n");
+}
+
+
+int main()
+{
+    int a[] = {6,3,5,1,8,7,11,13,9};
+    int n = sizeof(a) / sizeof(a[0]);
+    
+    int i;
+    for(i=0;i<n;i++){
+        root = insert(root,a[i]);
+    }
+    inorderSuccessor(root);
+
+    return 0;
+}
